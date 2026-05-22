@@ -1,0 +1,412 @@
+<style>
+    /* CSS Cấu trúc phân trang giống hình */
+    .custom-pagination { display: flex; align-items: center; justify-content: center; gap: 6px; user-select: none; margin-top: 15px; margin-bottom: 10px; }
+    .page-box { min-width: 32px; height: 32px; padding: 0 8px; display: flex; align-items: center; justify-content: center; border: 1px solid #e0e0e0; border-radius: 6px; background: #fff; color: #333; cursor: pointer; font-size: 14px; transition: all 0.2s; }
+    .page-box:hover:not(.active):not(.disabled):not(.dots) { border-color: #f69c24; color: #f69c24; }
+    .page-box.active { background: #f69c24; border-color: #f69c24; color: #fff; cursor: default; font-weight: bold; }
+    .page-box.disabled { color: #bbb; cursor: not-allowed; background: #f9f9f9; }
+    .page-box.dots { border: none; background: transparent; cursor: default; font-weight: bold; color: #888; letter-spacing: 2px;}
+</style>
+
+<div id="ordersSection" class="control-panel d-none">
+    
+    <!-- =================== PHẦN GỢI Ý ĐẶT GIÁ 3 MỐC =================== -->
+    <div class="card mb-3 shadow-sm border-0 bg-light">
+        <div class="card-body py-3">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div class="d-flex align-items-center">
+                    <h6 class="fw-bold text-primary mb-0" style="font-size: 14px;">
+                        <i class="fas fa-lightbulb text-warning"></i> GỢI Ý ĐẶT GIÁ (Theo Mốc):
+                    </h6>
+                    <!-- Tần suất cập nhật giá -->
+                    <div class="ms-4 d-flex align-items-center bg-white border rounded px-2 py-1">
+                        <label class="text-muted fw-bold me-2 mb-0" style="font-size: 12px;">Tần suất Auto:</label>
+                        <select class="form-select form-select-sm border-0 sync-adUpdateFreq fw-bold text-primary p-0 pe-3" style="width: 80px; font-size: 12px; cursor: pointer; box-shadow: none;">
+                            <option value="1">1 phút</option>
+                            <option value="2">2 phút</option>
+                            <option value="3" selected>3 phút</option>
+                            <option value="5">5 phút</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="text-muted fw-bold" style="font-size: 12px;">
+                    <i class="fas fa-clock"></i> <span class="sync-marketRecTime">--:--:--</span>
+                </div>
+            </div>
+
+            <!-- BỐ CỤC 3 MỐC CHIA NGANG -->
+            <div class="row g-2" style="font-size: 13px;">
+                <!-- Mốc 1 -->
+                <div class="col-md-4">
+                    <div class="p-2 border rounded bg-white h-100 shadow-sm border-start border-4" style="border-left-color: #6c757d !important;">
+                        <div class="mb-2 border-bottom pb-1"><span class="badge bg-secondary text-start sync-t1Label" style="font-size: 11.5px; width: 100%;">MỐC 1: ...</span></div>
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <span class="text-secondary">Mua vào:</span>
+                            <span><strong class="text-danger sync-t1BuyP">...</strong> <small class="text-muted">(Top <span class="sync-t1BuyR">-</span>)</small></span>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <span class="text-secondary">Bán ra:</span>
+                            <span><strong class="text-success sync-t1SellP">...</strong> <small class="text-muted">(Top <span class="sync-t1SellR">-</span>)</small></span>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="text-secondary">Lãi:</span>
+                            <strong class="text-primary sync-t1Margin">...</strong>
+                        </div>
+                        <div class="text-danger fw-bold mt-1 text-center sync-t1Err" style="font-size: 11.5px;"></div>
+                    </div>
+                </div>
+
+                <!-- Mốc 2 -->
+                <div class="col-md-4">
+                    <div class="p-2 border rounded bg-white h-100 shadow-sm border-start border-4" style="border-left-color: #6c757d !important;">
+                        <div class="mb-2 border-bottom pb-1"><span class="badge bg-secondary text-start sync-t2Label" style="font-size: 11.5px; width: 100%;">MỐC 2: ...</span></div>
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <span class="text-secondary">Mua vào:</span>
+                            <span><strong class="text-danger sync-t2BuyP">...</strong> <small class="text-muted">(Top <span class="sync-t2BuyR">-</span>)</small></span>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <span class="text-secondary">Bán ra:</span>
+                            <span><strong class="text-success sync-t2SellP">...</strong> <small class="text-muted">(Top <span class="sync-t2SellR">-</span>)</small></span>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="text-secondary">Lãi:</span>
+                            <strong class="text-primary sync-t2Margin">...</strong>
+                        </div>
+                        <div class="text-danger fw-bold mt-1 text-center sync-t2Err" style="font-size: 11.5px;"></div>
+                    </div>
+                </div>
+
+                <!-- Mốc 3 -->
+                <div class="col-md-4">
+                    <div class="p-2 border rounded bg-white h-100 shadow-sm border-start border-4" style="border-left-color: #6c757d !important;">
+                        <div class="mb-2 border-bottom pb-1"><span class="badge bg-secondary text-start sync-t3Label" style="font-size: 11.5px; width: 100%;">MỐC 3: ...</span></div>
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <span class="text-secondary">Mua vào:</span>
+                            <span><strong class="text-danger sync-t3BuyP">...</strong> <small class="text-muted">(Top <span class="sync-t3BuyR">-</span>)</small></span>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <span class="text-secondary">Bán ra:</span>
+                            <span><strong class="text-success sync-t3SellP">...</strong> <small class="text-muted">(Top <span class="sync-t3SellR">-</span>)</small></span>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="text-secondary">Lãi:</span>
+                            <strong class="text-primary sync-t3Margin">...</strong>
+                        </div>
+                        <div class="text-danger fw-bold mt-1 text-center sync-t3Err" style="font-size: 11.5px;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-muted mt-3 pt-2 border-top border-white" style="font-size: 12.5px;">
+                <i class="fas fa-filter text-info"></i> <strong>Bộ lọc đang áp dụng:</strong> 
+                Biên độ ≥ <span class="fw-bold text-dark sync-filterDelta">0</span> | 
+                PTTT: <span class="fw-bold text-dark sync-filterPay">Tất cả</span> | 
+                Lãi tối thiểu: <span class="fw-bold text-primary sync-filterMargin">0</span>%
+            </div>
+        </div>
+    </div>
+    <!-- =================== KẾT THÚC GỢI Ý ĐẶT GIÁ =================== -->
+
+    <!-- ================= BẢNG SỐ DƯ KZT & USDT ================= -->
+    <div class="card mb-3 shadow-sm border-0">
+        <div class="card-header bg-white py-2 d-flex justify-content-between align-items-center">
+            <h6 class="mb-0 fw-bold text-primary"><i class="fas fa-wallet"></i> BẢNG SỐ DƯ TÀI KHOẢN</h6>
+            <div>
+                <span id="timeRefreshUsdt" class="text-muted me-2" style="font-size: 12px;"></span>
+                <button id="btnRefreshUsdt" class="btn btn-sm btn-outline-primary"><i class="fas fa-sync-alt"></i> Làm mới USDT</button>
+            </div>
+        </div>
+        <div class="card-body py-2">
+            <div class="row align-items-center">
+                <!-- Số dư KZT -->
+                <div class="col-md-3 border-end">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <strong class="text-dark" style="font-size: 14px;">SỐ DƯ KZT (Ngân hàng)</strong>
+                        <div>
+                            <button id="btnEditBank" class="btn btn-sm btn-light text-primary py-0" style="font-size: 12px;"><i class="fas fa-edit"></i> Sửa</button>
+                            <button id="btnSaveBank" class="btn btn-sm btn-success d-none py-0" style="font-size: 12px;"><i class="fas fa-save"></i> Lưu</button>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center mb-2">
+                        <span class="me-2 text-secondary" style="width: 60px; font-size: 13px;">Freedom:</span>
+                        <input type="text" id="bankFreedom" class="form-control form-control-sm text-end fw-bold text-success" disabled style="font-size: 14px;">
+                    </div>
+                    <div class="d-flex align-items-center mb-1">
+                        <span class="me-2 text-secondary" style="width: 60px; font-size: 13px;">BCC:</span>
+                        <input type="text" id="bankBCC" class="form-control form-control-sm text-end fw-bold text-success" disabled style="font-size: 14px;">
+                    </div>
+                </div>
+                
+                <!-- Số dư USDT -->
+                <div class="col-md-9">
+                    <div class="d-flex justify-content-between align-items-center border-bottom pb-2 mb-2">
+                        <strong class="text-dark" style="font-size: 14px;">SỐ DƯ USDT (Trên Bybit)</strong>
+                        <div style="font-size: 14px;">
+                            <span class="me-3 text-secondary">Khả dụng: <strong class="text-success fs-6 ms-1" id="balTotalAvail">0.00</strong></span>
+                            <span class="me-3 text-secondary">Khóa: <strong class="text-danger fs-6 ms-1" id="balTotalLock">0.00</strong></span>
+                            <span class="text-secondary">TỔNG: <strong class="text-primary fs-5 ms-1" id="balTotalAll">0.00</strong></span>
+                        </div>
+                    </div>
+                    <div class="row text-center" style="font-size: 13px;">
+                        <div class="col-4">
+                            <span class="text-secondary me-2">Funding:</span> 
+                            <strong class="text-dark fs-6" id="balFundAvail">0.00</strong> 
+                            <span class="text-danger ms-1" style="font-size: 11px;" id="balFundLock">(0.00)</span>
+                        </div>
+                        <div class="col-4 border-start border-end">
+                            <span class="text-secondary me-2">Unified:</span> 
+                            <strong class="text-dark fs-6" id="balUnifiedAvail">0.00</strong> 
+                            <span class="text-danger ms-1" style="font-size: 11px;" id="balUnifiedLock">(0.00)</span>
+                        </div>
+                        <div class="col-4">
+                            <span class="text-secondary me-2">Earn:</span> 
+                            <strong class="text-dark fs-6" id="balEarnAvail">0.00</strong> 
+                            <span class="text-danger ms-1" style="font-size: 11px;" id="balEarnLock">(0.00)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ================= KẾT THÚC BẢNG SỐ DƯ ================= -->    
+    
+    <!-- =================== PHẦN HIỂN THỊ QUẢNG CÁO ONLINE =================== -->
+    <div class="panel-body pt-3 pb-2 border-bottom">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h6 class="fw-bold text-success mb-0"><i class="fas fa-broadcast-tower"></i> Quảng cáo đang Online</h6>
+            <div>
+                <span id="timeRefreshOnlineAds" class="me-2 text-muted fw-bold" style="font-size: 12px;"></span>
+                <button class="btn btn-sm btn-outline-primary" id="btnRefreshOnlineAds"><i class="fas fa-sync-alt"></i></button>
+            </div>
+        </div>
+        <div class="table-responsive mb-2">
+            <table class="table p2p-table">
+                <thead class="table-light">
+                    <tr>
+                        <th>ID / Cập Nhật</th>
+                        <th class="text-center">Loại</th>
+                        <th>Giá / PTTT</th>
+                        <th>Khả Dụng / Giới Hạn</th>
+                        <th class="text-center">Trạng Thái</th>
+                        <th class="text-end">Hành Động</th>
+                    </tr>
+                </thead>
+                <tbody id="onlineAdsBodyOrdersTab">
+                    <tr><td colspan="6" class="text-center text-muted py-4">Đang kiểm tra...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- =================== KẾT THÚC PHẦN QUẢNG CÁO ONLINE =================== -->
+
+    <!-- =================== THANH TABS =================== -->
+    <div class="panel-header bg-white pb-0 mt-3 position-relative">
+        <ul class="nav nav-tabs" id="ordersSubTabs">
+            <li class="nav-item">
+                <a class="nav-link active" data-target="pendingOrdersList" style="cursor: pointer;">
+                    <i class="fas fa-hourglass-half"></i> Đơn hàng đang Pending
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-target="oldOrdersList" style="cursor: pointer;">
+                    <i class="fas fa-history"></i> Tất cả Đơn hàng
+                </a>
+            </li>
+        </ul>
+    </div>
+    
+    <div class="panel-body pt-3 border-top-0">
+        <!-- =================== SUB-TAB: PENDING =================== -->
+        <div id="pendingOrdersList" class="position-relative">
+            <div class="position-absolute end-0" style="top: -46px; z-index: 10;">
+                <span id="timeRefreshPending" class="me-2 text-muted fw-bold" style="font-size: 12px;"></span>
+                <button class="btn btn-sm btn-outline-primary" id="btnRefreshPending"><i class="fas fa-sync-alt"></i> Làm Mới</button>
+            </div>
+            <div class="table-responsive mt-1">
+                <table class="table p2p-table mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Ngày Tạo / ID</th>
+                            <th>Đối tác (Nickname/Real Name)</th>
+                            <th>Số Lượng (Token / Fiat)</th>
+                            <th>Giá</th>
+                            <th>Trạng Thái</th>
+                        </tr>
+                    </thead>
+                    <tbody id="pendingOrdersBody">
+                        <tr><td colspan="5" class="text-center text-muted py-4">Bấm "Làm Mới" để tải dữ liệu...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- Chứa phân trang Pending -->
+            <div id="pendingPagination"></div>
+        </div>
+
+        <!-- =================== SUB-TAB: CŨ =================== -->
+        <div id="oldOrdersList" class="position-relative d-none">
+            <div class="position-absolute end-0" style="top: -46px; z-index: 10;">
+                <span id="timeRefreshOld" class="me-2 text-muted fw-bold" style="font-size: 12px;"></span>
+                <button class="btn btn-sm btn-outline-primary" id="btnRefreshOld"><i class="fas fa-sync-alt"></i> Làm Mới</button>
+            </div>
+            <div class="table-responsive mt-1">
+                <table class="table p2p-table mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Ngày Tạo / ID</th>
+                            <th>Đối tác (Nickname/Real Name)</th>
+                            <th>Số Lượng (Token / Fiat)</th>
+                            <th>Giá</th>
+                            <th>Trạng Thái</th>
+                        </tr>
+                    </thead>
+                    <tbody id="oldOrdersBody">
+                        <tr><td colspan="5" class="text-center text-muted py-4">Bấm "Làm Mới" để tải dữ liệu...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- Chứa phân trang Old -->
+            <div id="oldPagination"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Chi Tiết & Chat Đơn Hàng -->
+<div class="modal fade" id="orderDetailModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 92vw;">
+        <div class="modal-content border-0 shadow-lg">
+            <div class="modal-header bg-dark text-white border-bottom-0 py-2 d-flex justify-content-between align-items-center">
+                <h5 class="modal-title fs-6 mb-0 d-flex align-items-center">
+                    <i class="fas fa-file-invoice-dollar text-warning me-2"></i> 
+                    Chi Tiết Đơn Hàng <span id="dtOrderIdVal" class="text-info ms-1">...</span> 
+                    <span id="dtAccountNameHeader" class="text-light ms-2 fw-bold" style="font-size: 14px;"></span>
+                </h5>
+                <div class="d-flex align-items-center">
+                    <span id="dtCreateTimeHeader" class="text-white-50 me-3 fw-bold" style="font-size: 13px;"></span>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+            </div>
+            <div class="modal-body p-0" style="background-color: #f8f9fa;">
+                <div class="row g-0">
+                    <!-- CỘT TRÁI: INFO -->
+                    <div class="col-lg-7 col-md-6 border-end bg-white" style="height: 78vh; overflow-y: auto;">
+                        <div class="p-3 p-md-4">
+                            <div id="orderDetailLoading" class="text-center py-5 text-muted">
+                                <i class="fas fa-spinner fa-spin fa-2x mb-2"></i><br>Đang tải chi tiết...
+                            </div>
+                            <div id="orderDetailBody" class="d-none">
+                                <!-- Nội dung đơn render từ JS -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CỘT PHẢI: CHAT -->
+                    <div class="col-lg-5 col-md-6 d-flex flex-column" style="height: 78vh;">
+                        <!-- Header Chat -->
+                        <div class="bg-white border-bottom p-2 d-flex justify-content-between align-items-center">
+                            <h6 class="mb-0 fw-bold text-primary"><i class="fas fa-comments"></i> Trò Chuyện</h6>
+                        </div>
+                        
+                        <!-- Vùng hiển thị tin nhắn -->
+                        <div class="flex-grow-1 p-3 overflow-auto d-flex flex-column" id="chatMessagesArea" style="background-color: #f0f2f5;">
+                            <!-- Tin nhắn load từ JS -->
+                        </div>
+
+                        <!-- CÂU TRẢ LỜI NHANH (UI MỚI: Popup) -->
+                        <div class="bg-white border-top p-2">
+                            <button class="btn btn-outline-warning fw-bold text-dark w-100" type="button" id="btnShowChatTemplates">
+                                <i class="fas fa-bolt"></i> CHỌN CÂU TRẢ LỜI NHANH SONG NGỮ
+                            </button>
+                        </div>
+
+                        <!-- Input nhập tin nhắn -->
+                        <div class="bg-white p-2 border-top">
+                            <div class="input-group">
+                                <button class="btn btn-outline-secondary" type="button" id="btnAttachFile" title="Gửi Ảnh/File"><i class="fas fa-image"></i></button>
+                                <input type="file" id="chatFileInput" class="d-none" accept=".jpg,.jpeg,.png,.gif,.webp,.pdf">
+                                <input type="text" id="chatInputMessage" class="form-control" placeholder="Nhập tin nhắn...">
+                                <button class="btn btn-info text-white fw-bold" type="button" id="btnTranslateChat" title="Dịch sang Nga"><i class="fas fa-language"></i> Dịch</button>
+                                <button class="btn btn-primary" type="button" id="btnSendChat"><i class="fas fa-paper-plane"></i></button>
+                            </div>
+                            <div class="d-flex justify-content-between mt-1">
+                                <small class="text-muted" style="font-size: 10px;">Hệ thống sẽ tự cập nhật tin nhắn mỗi 3s.</small>
+                                <small class="text-info" style="font-size: 10px;"><i class="fas fa-info-circle"></i> Bấm "Dịch" để đổi tiếng Việt sang Nga trước khi Gửi</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Chat Templates (Song Ngữ) -->
+<div class="modal fade" id="chatTemplatesModal" tabindex="-1" aria-hidden="true" style="z-index: 1060;">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg" style="border-radius: 10px;">
+            <div class="modal-header bg-warning py-3 border-0" style="border-radius: 10px 10px 0 0;">
+                <h6 class="modal-title fw-bold text-dark mb-0"><i class="fas fa-bolt"></i> CÂU TRẢ LỜI NHANH P2P</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-3 bg-light" style="max-height: 450px; overflow-y: auto;" id="chatTemplatesListArea">
+                <!-- Danh sách câu mẫu sẽ đổ vào đây -->
+            </div>
+            <div class="modal-footer bg-white border-top p-3 d-flex flex-column align-items-stretch">
+                <label class="text-secondary fw-bold mb-1" style="font-size: 12px;">THÊM MỚI CÂU MẪU (Sẽ tự động dịch sang Nga):</label>
+                <div class="input-group">
+                    <input type="text" id="newTemplateViInput" class="form-control" placeholder="Ví dụ: Xin chào, tôi đang kiểm tra tiền...">
+                    <button class="btn btn-primary fw-bold" id="btnAddNewTemplate" style="width: 120px;"><i class="fas fa-plus"></i> LƯU</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Bổ Sung U -->
+<div class="modal fade" id="addUsdtModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg">
+            <div class="modal-header bg-success text-white py-3">
+                <h5 class="modal-title fw-bold"><i class="fas fa-coins me-2"></i>Bổ sung USDT vào Quảng Cáo</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4">
+                <div class="text-center mb-4">
+                    <span class="badge bg-light text-dark border px-3 py-2 fs-6">
+                        Mã QC: <span id="addU_adId" class="text-primary fw-bold"></span>
+                    </span>
+                </div>
+
+                <div class="card bg-light border-0 mb-4">
+                    <div class="card-body p-3">
+                        <div class="d-flex justify-content-between mb-2 pb-2 border-bottom" style="font-size: 14.5px;">
+                            <span class="text-secondary"><i class="fas fa-wallet me-2"></i>Tổng Ví Funding:</span>
+                            <strong class="text-dark" id="addU_fundAvail">0.00 USDT</strong>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2 pb-2 border-bottom" style="font-size: 14.5px;">
+                            <span class="text-secondary"><i class="fas fa-ad me-2"></i>Đang có trong QC:</span>
+                            <strong class="text-primary" id="addU_currentQty">0.00 USDT</strong>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center" style="font-size: 15px;">
+                            <span class="text-success fw-bold"><i class="fas fa-plus-circle me-2"></i>Có thể bổ sung tối đa:</span>
+                            <strong class="text-success fs-5" id="addU_maxAddable">0.00 USDT</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group mb-4">
+                    <label class="form-label text-secondary fw-bold">Số USDT muốn thêm vào QC:</label>
+                    <div class="input-group input-group-lg shadow-sm">
+                        <span class="input-group-text bg-white text-success"><i class="fas fa-dollar-sign"></i></span>
+                        <input type="number" class="form-control fw-bold text-center fs-4" id="addU_amount" placeholder="0.00" step="0.01">
+                        <button class="btn btn-success fw-bold px-4" type="button" id="btnMaxAddU">MAX</button>
+                    </div>
+                </div>
+
+                <button class="btn btn-success btn-lg w-100 fw-bold shadow-sm" id="btnConfirmAddU">
+                    <i class="fas fa-check-circle me-2"></i>Xác nhận Bổ Sung
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

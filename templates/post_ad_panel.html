@@ -1,0 +1,220 @@
+<div id="postAdSection" class="control-panel d-none">
+    <div class="panel-header bg-white pb-0 border-bottom-0">
+        <ul class="nav nav-tabs border-bottom-0 w-100" id="adsSubTabs">
+            <li class="nav-item">
+                <a class="nav-link active" data-target="myAdsList" style="cursor: pointer;">Danh Sách Quảng Cáo</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-target="postAdForm" style="cursor: pointer;">Đăng Quảng Cáo</a>
+            </li>
+        </ul>
+    </div>
+    
+    <!-- =================== PHẦN GỢI Ý ĐẶT GIÁ 3 MỐC =================== -->
+    <div id="adRecommendationPanel" class="p-2 border-bottom flex-column" style="background-color: #f0fdf4; font-size: 13.5px;">
+        <div class="d-flex flex-wrap gap-4 align-items-center mb-1 w-100">
+            <span class="fw-bold text-success ms-2"><i class="fas fa-lightbulb text-warning"></i> GỢI Ý ĐẶT GIÁ <span class="text-secondary fw-normal">(Theo Mốc)</span></span>
+            
+            <div class="ms-3 d-flex align-items-center">
+                <label class="text-muted fw-bold me-2" style="font-size: 12px;"><i class="fas fa-history"></i> Tần suất Auto bám giá:</label>
+                <select class="form-select form-select-sm sync-adUpdateFreq" id="adUpdateFreq" style="width: 110px; font-size: 12px; cursor: pointer;">
+                    <option value="1">1 phút/lần</option>
+                    <option value="2">2 phút/lần</option>
+                    <option value="3" selected>3 phút/lần</option>
+                    <option value="5">5 phút/lần</option>
+                </select>
+            </div>
+
+            <div class="ms-auto text-muted me-2" style="font-size: 12px;"><i class="fas fa-clock"></i> <span class="sync-marketRecTime">--:--:--</span></div>
+        </div>
+        
+        <div class="d-flex flex-wrap gap-4 align-items-center ms-4 pb-1 border-bottom border-white" style="font-size: 13px;">
+            <span class="badge bg-secondary text-start sync-t1Label" style="width: 160px; font-size: 11.5px;">MỐC 1: ...</span>
+            <div style="width: 210px;"><span class="text-secondary">Mua vào:</span> <strong class="text-danger sync-t1BuyP">...</strong> <small class="text-muted">(Top <span class="sync-t1BuyR">-</span>)</small></div>
+            <div style="width: 210px;"><span class="text-secondary">Bán ra:</span> <strong class="text-success sync-t1SellP">...</strong> <small class="text-muted">(Top <span class="sync-t1SellR">-</span>)</small></div>
+            <div style="width: 140px;"><span class="text-secondary">Lãi:</span> <strong class="text-primary sync-t1Margin">...</strong></div>
+            <div class="text-danger fw-bold sync-t1Err" style="font-size: 11.5px;"></div>
+        </div>
+
+        <div class="d-flex flex-wrap gap-4 align-items-center ms-4 pb-1 border-bottom border-white" style="font-size: 13px;">
+            <span class="badge bg-secondary text-start sync-t2Label" style="width: 160px; font-size: 11.5px;">MỐC 2: ...</span>
+            <div style="width: 210px;"><span class="text-secondary">Mua vào:</span> <strong class="text-danger sync-t2BuyP">...</strong> <small class="text-muted">(Top <span class="sync-t2BuyR">-</span>)</small></div>
+            <div style="width: 210px;"><span class="text-secondary">Bán ra:</span> <strong class="text-success sync-t2SellP">...</strong> <small class="text-muted">(Top <span class="sync-t2SellR">-</span>)</small></div>
+            <div style="width: 140px;"><span class="text-secondary">Lãi:</span> <strong class="text-primary sync-t2Margin">...</strong></div>
+            <div class="text-danger fw-bold sync-t2Err" style="font-size: 11.5px;"></div>
+        </div>
+
+        <div class="d-flex flex-wrap gap-4 align-items-center ms-4" style="font-size: 13px;">
+            <span class="badge bg-secondary text-start sync-t3Label" style="width: 160px; font-size: 11.5px;">MỐC 3: ...</span>
+            <div style="width: 210px;"><span class="text-secondary">Mua vào:</span> <strong class="text-danger sync-t3BuyP">...</strong> <small class="text-muted">(Top <span class="sync-t3BuyR">-</span>)</small></div>
+            <div style="width: 210px;"><span class="text-secondary">Bán ra:</span> <strong class="text-success sync-t3SellP">...</strong> <small class="text-muted">(Top <span class="sync-t3SellR">-</span>)</small></div>
+            <div style="width: 140px;"><span class="text-secondary">Lãi:</span> <strong class="text-primary sync-t3Margin">...</strong></div>
+            <div class="text-danger fw-bold sync-t3Err" style="font-size: 11.5px;"></div>
+        </div>
+
+        <div class="ms-2 mt-2 text-muted" style="font-size: 12.5px;">
+            <i class="fas fa-filter text-info"></i> <strong>Bộ lọc đang áp dụng:</strong> 
+            Biên độ ≥ <span class="fw-bold text-dark sync-filterDelta">0</span> | 
+            PTTT: <span class="fw-bold text-dark sync-filterPay">Tất cả</span> | 
+            Lãi tối thiểu: <span class="fw-bold text-primary sync-filterMargin">0</span>%
+        </div>
+    </div>
+
+    <div class="panel-body pt-3 pb-0">
+        <!-- =================== SUB-TAB: DANH SÁCH QUẢNG CÁO =================== -->
+        <div id="myAdsList">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h6 class="fw-bold text-secondary mb-0"><i class="fas fa-list"></i> Danh sách quảng cáo của tôi</h6>
+                <button class="btn btn-sm btn-outline-primary" id="btnRefreshMyAds"><i class="fas fa-sync-alt"></i> Làm Mới Danh Sách</button>
+            </div>
+            
+            <div class="table-responsive">
+                <table class="table p2p-table">
+                    <thead class="table-light">
+                        <tr>
+                            <th>ID / Cập Nhật</th>
+                            <th>Loại</th>
+                            <th>Giá / PTTT</th>
+                            <th>Khả Dụng / Giới Hạn</th>
+                            <th class="text-center">Trạng Thái</th>
+                            <th>Hành Động</th>
+                        </tr>
+                    </thead>
+                    <tbody id="myAdsTableBody">
+                        <tr><td colspan="6" class="text-center text-muted py-4">Đang tải dữ liệu...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- =================== SUB-TAB: ĐĂNG QUẢNG CÁO =================== -->
+        <div id="postAdForm" class="d-none">
+            <div class="row">
+                <div class="col-md-3 mb-3">
+                    <label class="ad-form-label">Loại quảng cáo (Side)</label>
+                    <select class="form-select ad-form-control" id="adSide">
+                        <option value="0">Mua (Buy)</option>
+                        <option value="1">Bán (Sell)</option>
+                    </select>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label class="ad-form-label">Token (Tiền điện tử)</label>
+                    <input type="text" class="form-control ad-form-control bg-light" id="adTokenId" value="USDT" disabled>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label class="ad-form-label">Tiền pháp định (Fiat)</label>
+                    <input type="text" class="form-control ad-form-control bg-light" id="adCurrencyId" value="KZT" disabled>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label class="ad-form-label">Giá (Price)</label>
+                    <input type="number" class="form-control ad-form-control" id="adPrice" placeholder="VD: 540" step="0.01">
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label class="ad-form-label d-flex justify-content-between align-items-center">
+                        <span>Số lượng USDT (Quantity)</span>
+                        <small class="text-muted">
+                            Khả dụng: <strong class="text-success" id="adFundAvail">--</strong> USDT
+                            <button type="button" class="btn btn-sm btn-outline-success py-0 px-2 ms-1" id="btnLoadFundBalance" style="font-size: 11px;">
+                                <i class="fas fa-sync-alt"></i>
+                            </button>
+                        </small>
+                    </label>
+                    <div class="input-group">
+                        <input type="number" class="form-control ad-form-control" id="adQuantity" placeholder="Tổng số lượng muốn giao dịch" step="0.01" min="0">
+                        <button type="button" class="btn btn-outline-primary fw-bold" id="btnMaxAdQuantity" style="font-size: 12px;">MAX</button>
+                    </div>
+                    <small class="text-danger d-none" id="adQuantityErr" style="font-size: 11px;">Vượt quá số dư khả dụng!</small>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="ad-form-label">Hạn mức Min (Fiat)</label>
+                    <input type="number" class="form-control ad-form-control" id="adMinAmount" placeholder="Tối thiểu 1 lệnh">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="ad-form-label">Hạn mức Max (Fiat)</label>
+                    <input type="number" class="form-control ad-form-control" id="adMaxAmount" placeholder="Tối đa 1 lệnh">
+                </div>
+
+                <div class="col-md-8 mb-3">
+                    <label class="ad-form-label d-flex justify-content-between align-items-center">
+                        <span>Phương thức thanh toán (Tối đa 5 mục)</span>
+                        <button type="button" class="btn btn-sm btn-outline-primary py-0 px-2" id="btnLoadPayments" style="font-size: 12px;">
+                            <i class="fas fa-sync-alt"></i> Tải PTTT
+                        </button>
+                    </label>
+                    <input type="text" class="form-control ad-form-control mb-2 bg-light text-primary fw-bold" id="adPaymentIds" placeholder="Các ID đã chọn..." readonly>
+                    <div id="paymentListContainer" class="border rounded p-2" style="max-height: 180px; overflow-y: auto; background: #fafafa;">
+                        <div class="text-muted text-center" style="font-size: 13px;">Bấm "Tải PTTT" để xem danh sách của tài khoản...</div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4 mb-3">
+                    <label class="ad-form-label">Thời gian thanh toán (Phút)</label>
+                    <input type="number" class="form-control ad-form-control bg-light" id="adPaymentPeriod" value="15" disabled>
+                </div>
+
+                <div class="col-md-12 mb-3">
+                    <label class="ad-form-label">Ghi chú quảng cáo (Remark)</label>
+                    <textarea class="form-control ad-form-control" id="adRemark" rows="2" placeholder="Nhập lời nhắn cho đối tác..."></textarea>
+                </div>
+
+                <div class="col-md-12 mt-2">
+                    <h6 class="text-primary fw-bold" style="font-size: 14px;"><i class="fas fa-shield-alt"></i> Điều kiện khách hàng</h6>
+                    <div class="row mt-2" style="font-size: 13px;">
+                        <div class="col-md-12 mb-3 text-secondary" style="font-size: 12.5px;">
+                            <i class="fas fa-check-circle text-success"></i> Hệ thống mặc định <strong>Bắt buộc</strong>: Xác minh danh tính, Email, SĐT.
+                        </div>
+                        <div class="col-md-12 mb-2">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="adHasUnPostAd">
+                                <label class="form-check-label fw-bold text-dark">Không giao dịch với Nhà quảng cáo khác</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-2">
+                            <label class="form-label mb-1 text-secondary">Số ngày đăng ký ≥</label>
+                            <select class="form-select form-select-sm" id="adRegisterTime">
+                                <option value="0">Không yêu cầu</option>
+                                <option value="15">15 ngày</option>
+                                <option value="30">30 ngày</option>
+                                <option value="90">90 ngày</option>
+                                <option value="180">180 ngày</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 mb-2">
+                            <label class="form-label mb-1 text-secondary">Số lệnh 30 ngày ≥</label>
+                            <select class="form-select form-select-sm" id="adOrderFinishDay30">
+                                <option value="0">Không yêu cầu</option>
+                                <option value="5">5 lệnh</option>
+                                <option value="10">10 lệnh</option>
+                                <option value="40">40 lệnh</option>
+                                <option value="60">60 lệnh</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 mb-2">
+                            <label class="form-label mb-1 text-secondary">Tỷ lệ hoàn thành 30 ngày ≥</label>
+                            <select class="form-select form-select-sm" id="adCompleteRateDay30">
+                                <option value="0">Không yêu cầu</option>
+                                <option value="50">50%</option>
+                                <option value="85">85%</option>
+                                <option value="90">90%</option>
+                                <option value="95">95%</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12 mt-4 text-end">
+                    <button class="btn btn-primary px-4 fw-bold" id="btnSubmitAd"><i class="fas fa-paper-plane"></i> ĐĂNG QUẢNG CÁO LÊN BYBIT</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- =================== TERMINAL LOG (DÙNG CHUNG CHO CẢ 2 SUB-TAB) =================== -->
+        <div class="mt-3 p-2 bg-dark rounded" style="height: 150px; overflow-y: auto; font-family: monospace; font-size: 12px;">
+            <div class="text-light mb-1 border-bottom border-secondary pb-1">
+                <i class="fas fa-terminal"></i> Terminal Logs (Auto Update Price &amp; Đăng QC):
+            </div>
+            <div id="terminalLog"></div>
+        </div>
+    </div>
+</div>

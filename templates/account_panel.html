@@ -1,0 +1,72 @@
+<div class="control-panel">
+    <div class="panel-header d-flex justify-content-between align-items-center">
+        <h5 class="mb-0 text-primary fw-bold"><i class="fas fa-cog"></i> BẢNG ĐIỀU KHIỂN TÀI KHOẢN</h5>
+        <div class="d-flex gap-2 align-items-center">
+            <button id="cancelConfigBtn" class="btn btn-secondary d-none fw-bold" style="font-size: 13px; padding: 8px 16px; height: 36px; line-height: 1;"><i class="fas fa-undo"></i> HỦY</button>
+            <button id="actionBtn" class="btn btn-success fw-bold" style="font-size: 13px; padding: 8px 16px; height: 36px; line-height: 1;">LƯU CẤU HÌNH</button>
+        </div>
+    </div>
+    
+    <div class="panel-body" id="configArea">
+        <!-- Khối trên cùng chứa Nhóm, Tài khoản, Proxy, và OpenAI Key -->
+        <div class="row-section border-bottom pb-3 mb-3 d-flex flex-wrap align-items-center" style="border-bottom-width: 1px !important; row-gap: 15px;">
+            <div class="d-flex align-items-center me-4">
+                <span class="label-text"><span class="badge-num bg-n1">1</span> NHÓM:</span>
+                <select id="groupSelect" class="form-select form-select-sm mx-2" style="width: 120px;">
+                    <option value="">Đang tải...</option>
+                </select>
+                <button class="btn btn-sm btn-primary" id="refreshBtn"><i class="fas fa-sync-alt"></i></button>
+            </div>
+
+            <div id="lockedAccountDisplay" class="d-flex align-items-center me-4 d-none">
+                <span class="label-text"><span class="badge-num bg-n2">2</span> TÀI KHOẢN:</span>
+                <span class="ms-2 fw-bold text-dark" id="lockedAccountName" style="font-size: 14px;"></span>
+            </div>
+
+            <div class="d-flex align-items-center me-4">
+                <span class="label-text"><span class="badge-num bg-n3">3</span> CẤU HÌNH PROXY:</span>
+                <div id="proxyEditMode" class="proxy-inputs d-flex gap-2 ms-2">
+                    <input type="text" id="proxyIp" placeholder="IP" style="width: 130px;">
+                    <input type="text" id="proxyPort" placeholder="Port" style="width: 70px;">
+                    <input type="text" id="proxyUser" placeholder="Username" style="width: 120px;">
+                    <input type="password" id="proxyPass" placeholder="Password" style="width: 120px;">
+                </div>
+                <div id="proxyViewMode" class="proxy-display ms-2 d-none">
+                    <span id="proxyDisplayText"></span>
+                </div>
+            </div>
+
+            <!-- Cấu hình OpenAI Key -->
+            <div class="d-flex align-items-center me-4">
+                <span class="label-text"><span class="badge-num bg-info">4</span> OPENAI KEY:</span>
+                <div id="openaiEditMode" class="proxy-inputs ms-2">
+                    <input type="password" id="openaiKey" class="form-control form-control-sm border-info" placeholder="sk-proj-..." style="width: 250px;">
+                </div>
+                <div id="openaiViewMode" class="proxy-display ms-2 d-none">
+                    <span id="openaiDisplayText" class="fw-bold text-success"><i class="fas fa-check-circle"></i> Đã thiết lập</span>
+                </div>
+            </div>
+
+            <!-- MỚI: Cấu hình Telegram Bot -->
+            <div class="d-flex align-items-center flex-grow-1">
+                <span class="label-text"><span class="badge-num bg-warning text-dark">5</span> TELEGRAM BOT:</span>
+                <div id="teleEditMode" class="proxy-inputs d-flex gap-2 ms-2">
+                    <input type="password" id="teleBotToken" class="form-control form-control-sm border-warning" placeholder="Bot Token..." style="width: 180px;">
+                    <input type="text" id="teleChatId" class="form-control form-control-sm border-warning" placeholder="Chat/Group ID..." style="width: 130px;">
+                </div>
+                <div id="teleViewMode" class="proxy-display ms-2 d-none">
+                    <span class="fw-bold text-success"><i class="fas fa-check-circle"></i> Đã thiết lập Bot</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row-section mb-0" id="accountSelectionRow">
+            <div class="w-100 mb-2">
+                <span class="label-text"><span class="badge-num bg-n2">2</span> CHỌN TÀI KHOẢN (<span id="accCount">0</span>):</span>
+            </div>
+            <div id="accountsContainer" class="d-flex flex-wrap gap-3 w-100">
+                <span class="text-muted" style="font-size: 13px;">Vui lòng chọn nhóm...</span>
+            </div>
+        </div>
+    </div>
+</div>

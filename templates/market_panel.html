@@ -1,0 +1,133 @@
+<div id="p2pMarketSection" class="control-panel d-none">
+    <div class="panel-header bg-white pb-0 border-bottom-0" style="position: relative;">
+        <ul class="nav nav-tabs border-bottom-0 w-100" id="tradeTabs">
+            <li class="nav-item"><a class="nav-link active" data-side="1">MUA USDT <small class="text-muted">(Ads Bán)</small></a></li>
+            <li class="nav-item"><a class="nav-link" data-side="0">BÁN USDT <small class="text-muted">(Ads Mua)</small></a></li>
+        </ul>
+        
+        <div class="d-flex align-items-center gap-3" style="position: absolute; right: 20px; top: 8px;">
+            <div class="input-group input-group-sm" style="width: 130px;">
+                <span class="input-group-text bg-light text-secondary"><i class="fas fa-clock"></i></span>
+                <select class="form-select text-secondary fw-bold" id="autoRefreshSelect">
+                    <option value="0">Tắt tự động</option>
+                    <option value="10" selected>10 giây</option>
+                    <option value="30">30 giây</option>
+                    <option value="60">60 giây</option>
+                </select>
+            </div>
+            <div id="updateStatus" class="text-secondary d-flex align-items-center" style="font-size: 13px; font-weight: 500;">
+                <i id="bgLoadingSpinner" class="fas fa-sync-alt fa-spin text-primary me-2 d-none"></i>
+                <span id="lastUpdateTimeText">Chưa cập nhật</span>
+            </div>
+            <button id="refreshMarketBtn" class="btn btn-sm btn-outline-secondary">Làm Mới P2P</button>
+        </div>
+    </div>
+    
+    <div class="p-2 border-bottom filter-section bg-light">
+        <div class="d-flex flex-wrap gap-3 align-items-center px-2 mb-2">
+            <span class="fw-bold text-secondary" style="width: 80px;"><i class="fas fa-filter"></i> BỘ LỌC:</span>
+            <div class="input-group input-group-sm" style="width: 200px;">
+                <span class="input-group-text bg-white text-secondary">Biên độ ≥</span>
+                <input type="number" class="form-control" id="filterDeltaX" placeholder="VD: 100">
+            </div>
+            <div class="input-group input-group-sm" style="width: 250px;">
+                <span class="input-group-text bg-white text-secondary">PTTT</span>
+                <input type="text" class="form-control" id="filterPayment" placeholder="VD: Freedom Bank">
+            </div>
+            <div class="input-group input-group-sm" style="width: 220px;">
+                <span class="input-group-text bg-white text-secondary fw-bold text-primary">Lãi tối thiểu</span>
+                <input type="number" class="form-control fw-bold text-primary" id="filterMargin" placeholder="4" step="0.01">
+                <span class="input-group-text bg-white text-secondary">%</span>
+            </div>
+
+            <!-- NÚT SWITCH ẨN/HIỆN QUẢNG CÁO KHÔNG ĐẠT -->
+            <div class="form-check form-switch ms-3 mt-1" style="transform: scale(1.1); transform-origin: left center;">
+                <input class="form-check-input" type="checkbox" id="toggleShowAllAds">
+                <label class="form-check-label text-secondary fw-bold" for="toggleShowAllAds" style="font-size: 12px; margin-top: 2px;">Hiện QC bị loại</label>
+            </div>
+        </div>
+        
+        <!-- THIẾT LẬP 3 MỐC GIỚI HẠN (Đã sửa placeholder thành chữ) -->
+        <div class="d-flex flex-wrap gap-3 align-items-center px-2 mt-2">
+            <span class="fw-bold text-secondary" style="width: 80px; font-size: 12px;"><i class="fas fa-layer-group"></i> CHIA MỐC:</span>
+            
+            <div class="input-group input-group-sm" style="width: 240px;">
+                <span class="input-group-text bg-secondary text-white" style="font-size: 11px;">Mốc 1</span>
+                <input type="number" class="form-control text-center px-1" id="tier1Min" placeholder="Nhập Min">
+                <span class="input-group-text px-1">-</span>
+                <input type="number" class="form-control text-center px-1" id="tier1Max" placeholder="Nhập Max">
+                <span class="input-group-text bg-light text-secondary fw-bold" style="font-size: 11px;">USDT</span>
+            </div>
+            
+            <div class="input-group input-group-sm" style="width: 240px;">
+                <span class="input-group-text bg-secondary text-white" style="font-size: 11px;">Mốc 2</span>
+                <input type="number" class="form-control text-center px-1" id="tier2Min" placeholder="Nhập Min">
+                <span class="input-group-text px-1">-</span>
+                <input type="number" class="form-control text-center px-1" id="tier2Max" placeholder="Nhập Max">
+                <span class="input-group-text bg-light text-secondary fw-bold" style="font-size: 11px;">USDT</span>
+            </div>
+
+            <div class="input-group input-group-sm" style="width: 240px;">
+                <span class="input-group-text bg-secondary text-white" style="font-size: 11px;">Mốc 3</span>
+                <input type="number" class="form-control text-center px-1" id="tier3Min" placeholder="Nhập Min">
+                <span class="input-group-text px-1">-</span>
+                <input type="number" class="form-control text-center px-1" id="tier3Max" placeholder="Nhập Max">
+                <span class="input-group-text bg-light text-secondary fw-bold" style="font-size: 11px;">USDT</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- PANEL GỢI Ý GIÁ CHO 3 MỐC -->
+    <div id="recommendationPanel" class="p-2 border-bottom d-flex flex-column gap-2 d-none" style="background-color: #f0fdf4; font-size: 13.5px;">
+        <div class="d-flex align-items-center mb-1">
+            <span class="fw-bold text-success ms-2 me-auto"><i class="fas fa-lightbulb text-warning"></i> GỢI Ý ĐẶT GIÁ (Theo Mốc):</span>
+            <div id="marketRecTime" class="text-muted" style="font-size: 12px;"></div>
+        </div>
+        
+        <div class="d-flex flex-wrap gap-4 align-items-center ms-4 pb-1 border-bottom border-light">
+            <span class="badge bg-secondary text-start sync-t1Label" style="width: 160px; font-size: 11.5px;">MỐC 1: ...</span>
+            <div style="width: 210px;"><span class="text-secondary">Mua vào:</span> <strong class="text-danger sync-t1BuyP" id="t1BuyP">...</strong> <small class="text-muted">(Top <span class="sync-t1BuyR" id="t1BuyR">-</span>)</small></div>
+            <div style="width: 210px;"><span class="text-secondary">Bán ra:</span> <strong class="text-success sync-t1SellP" id="t1SellP">...</strong> <small class="text-muted">(Top <span class="sync-t1SellR" id="t1SellR">-</span>)</small></div>
+            <div style="width: 140px;"><span class="text-secondary">Lãi:</span> <strong class="text-primary sync-t1Margin" id="t1Margin">...</strong></div>
+            <div id="t1Err" class="text-danger fw-bold sync-t1Err" style="font-size: 12px; width: 150px;"></div>
+            <button class="btn btn-sm btn-outline-primary btn-tier-filter ms-auto me-3" data-tier="1" style="font-size: 11.5px; width: 110px;"><i class="fas fa-filter"></i> Xem đối thủ</button>
+        </div>
+
+        <div class="d-flex flex-wrap gap-4 align-items-center ms-4 pb-1 border-bottom border-light">
+            <span class="badge bg-secondary text-start sync-t2Label" style="width: 160px; font-size: 11.5px;">MỐC 2: ...</span>
+            <div style="width: 210px;"><span class="text-secondary">Mua vào:</span> <strong class="text-danger sync-t2BuyP" id="t2BuyP">...</strong> <small class="text-muted">(Top <span class="sync-t2BuyR" id="t2BuyR">-</span>)</small></div>
+            <div style="width: 210px;"><span class="text-secondary">Bán ra:</span> <strong class="text-success sync-t2SellP" id="t2SellP">...</strong> <small class="text-muted">(Top <span class="sync-t2SellR" id="t2SellR">-</span>)</small></div>
+            <div style="width: 140px;"><span class="text-secondary">Lãi:</span> <strong class="text-primary sync-t2Margin" id="t2Margin">...</strong></div>
+            <div id="t2Err" class="text-danger fw-bold sync-t2Err" style="font-size: 12px; width: 150px;"></div>
+            <button class="btn btn-sm btn-outline-primary btn-tier-filter ms-auto me-3" data-tier="2" style="font-size: 11.5px; width: 110px;"><i class="fas fa-filter"></i> Xem đối thủ</button>
+        </div>
+
+        <div class="d-flex flex-wrap gap-4 align-items-center ms-4">
+            <span class="badge bg-secondary text-start sync-t3Label" style="width: 160px; font-size: 11.5px;">MỐC 3: ...</span>
+            <div style="width: 210px;"><span class="text-secondary">Mua vào:</span> <strong class="text-danger sync-t3BuyP" id="t3BuyP">...</strong> <small class="text-muted">(Top <span class="sync-t3BuyR" id="t3BuyR">-</span>)</small></div>
+            <div style="width: 210px;"><span class="text-secondary">Bán ra:</span> <strong class="text-success sync-t3SellP" id="t3SellP">...</strong> <small class="text-muted">(Top <span class="sync-t3SellR" id="t3SellR">-</span>)</small></div>
+            <div style="width: 140px;"><span class="text-secondary">Lãi:</span> <strong class="text-primary sync-t3Margin" id="t3Margin">...</strong></div>
+            <div id="t3Err" class="text-danger fw-bold sync-t3Err" style="font-size: 12px; width: 150px;"></div>
+            <button class="btn btn-sm btn-outline-primary btn-tier-filter ms-auto me-3" data-tier="3" style="font-size: 11.5px; width: 110px;"><i class="fas fa-filter"></i> Xem đối thủ</button>
+        </div>
+    </div>
+
+    <div class="panel-body p-0">
+        <div class="table-responsive">
+            <table class="table p2p-table mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th style="padding-left: 20px;">Nhà Quảng Cáo</th>
+                        <th>Giá Cả</th>
+                        <th>Khả Dụng / Giới Hạn</th>
+                        <th>Phương Thức Thanh Toán</th>
+                    </tr>
+                </thead>
+                <tbody id="p2pTableBody"></tbody>
+            </table>
+        </div>
+        <div class="d-flex justify-content-center p-4 border-top bg-white">
+            <nav><ul class="custom-pagination" id="paginationControls"></ul></nav>
+        </div>
+    </div>
+</div>
